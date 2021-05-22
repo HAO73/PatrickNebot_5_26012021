@@ -8,22 +8,42 @@ console.log(id)
 
 ///////////////////Affichage produit selectionné///////////////
 
+const containerProduct = document.getElementById("containerProduct")
+
 
 fetch(`https://ab-p5-api.herokuapp.com/api/teddies/${id}`)
         .then(response => response.json())
         .then(response2 => {
-                document.getElementById("color1").textContent = response2.colors[0]
-                document.getElementById("color2").textContent = response2.colors[1]
-                document.getElementById("color3").textContent = response2.colors[2]
-                document.getElementById("color4").textContent = response2.colors[3]
-                document.getElementById("imageProduct").setAttribute("src", response2.imageUrl)
-                document.getElementById("nameProduct").textContent = response2.name
-                document.getElementById("descriptionProduct").textContent = response2.description
-                document.getElementById("priceProduct").textContent = response2.price / 100 + "€"
+
+                let productDisplay = `  <div class="row p-2 bg-light border m-3">
+              <div class="col-3">
+                  <img class="img-fluid" id="imageProduct" src="${response2.imageUrl}"/>
+              </div>
+              <div class="col-6">
+                  <h3 id="nameProduct">${response2.name}</h3>
+                  <h4 id="descriptionProduct">${response2.description}</h4>
+              </div>
+              <div class="col-3">
+                  <h3 id="priceProduct">${response2.price / 100 + "€"}</h3>
+  
+                  <div class="form-group">
+                      <label for="exampleFormControlSelect1">Selection Couleur</label>
+                      <select class="form-control" id="exampleFormControlSelect1">
+                      ${response2.colors.map(colors => "<option value=" + colors + ">" + colors + "</option>")}
+                      
+                      </select>
+                  </div>
+                  <button id="addCart" class="btn btn-dark">Ajouter au Panier</button>
+              </div>
+  
+          </div>`
+
+
+                containerProduct.innerHTML = productDisplay
 
         })
 
-// 
+
 
 function getArticle() {
 
@@ -38,9 +58,9 @@ function getArticle() {
                 .catch(function (error) {
 
                         alert(error)
-
                 })
 }
+
 
 let product;
 getArticle().then(result => {
@@ -51,32 +71,32 @@ getArticle().then(result => {
 
 //Ecouter panier et envois panier  & // recuperation produit details
 
-btn_sendCart.addEventListener("click", (event) => {
-event.preventDefault();
+        btn_sendCart.addEventListener("click", (event) => {
+                event.preventDefault();
 
-const userChoice = optionColor.value;
+                const userChoice = optionColor.value;
 
- let productCart = {
+                let productCart = {
 
-        productImage: product.imageUrl,
-        productName: product.name,
-        productPrice: product.price / 100,
-        productId: product._id,
-        productQuantity: 1,
-        productOption: userChoice                     
+                        productImage: product.imageUrl,
+                        productName: product.name,
+                        productPrice: product.price / 100,
+                        productId: product._id,
+                        productQuantity: 1,
+                        productOption: userChoice
 
-}
-//-----------------------------Local Storage -----------------------------------//
-let checkLocalStorage = JSON.parse(localStorage.getItem("orderElement")) || []
+                }
+                //-----------------------------Local Storage -----------------------------------//
+                let checkLocalStorage = JSON.parse(localStorage.getItem("orderElement")) || []
 
-console.log(checkLocalStorage)
+                console.log(checkLocalStorage)
 
-                                
-checkLocalStorage.push(productCart);
-localStorage.setItem("orderElement", JSON.stringify(checkLocalStorage));
-window.location.href = "panier.html";
-                
-console.log('product', product);
+
+                checkLocalStorage.push(productCart);
+                localStorage.setItem("orderElement", JSON.stringify(checkLocalStorage));
+                window.location.href = "panier.html";
+
+                console.log('product', product);
         })
 })
 
