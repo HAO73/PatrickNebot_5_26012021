@@ -37,10 +37,7 @@ fetch(`https://ab-p5-api.herokuapp.com/api/teddies/${id}`)
               </div>
   
           </div>`
-
-
                 containerProduct.innerHTML = productDisplay
-
         })
 
 
@@ -86,7 +83,7 @@ getArticle().then(result => {
                         productOption: userChoice
 
                 }
-                //-----------------------------Local Storage -----------------------------------//
+//-----------------------------Local Storage -----------------------------------//
                 let checkLocalStorage = JSON.parse(localStorage.getItem("orderElement")) || []
 
                 console.log(checkLocalStorage)
@@ -101,7 +98,6 @@ getArticle().then(result => {
 })
 
 
-//--------------------------------Gestion du panier-----------------------------------------
 
 
 

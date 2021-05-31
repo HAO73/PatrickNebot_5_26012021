@@ -163,7 +163,6 @@ btn_FormSend.addEventListener("click", (event) => {
   event.preventDefault();
 
   const formValues = {
-
     firstName: document.getElementById("validationTooltip01").value,
     lastName: document.getElementById("validationTooltip02").value,
     email: document.getElementById("inputEmail4").value,
@@ -171,20 +170,17 @@ btn_FormSend.addEventListener("click", (event) => {
     city: document.getElementById("inputCity").value,
     country: document.getElementById("inputCountry").value,
     zip: document.getElementById("inputZip").value,
-
   };
 
   //////////////////Formulaire bien renseigné //////////////////////
 
   const textAlert = (value) => {
-
     return `${value} : Chiffre et symbole ne sont pas autorisé \n min 3 caractères, max 20 caractères`
   }
 
 
 
   const regEx = (value) => {
-
     return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(value)
   }
 
@@ -201,7 +197,7 @@ btn_FormSend.addEventListener("click", (event) => {
       return true;
 
     } else {
-      alert(textAlert("Prénon"));
+      alert(textAlert("Prénom"));
       return false;
 
     }
@@ -325,7 +321,7 @@ btn_FormSend.addEventListener("click", (event) => {
 
       }
 
-///////////////////Supression du panier ////////////////////
+      ///////////////////Supression du panier ////////////////////
 
       localStorage.removeItem("orderElement")
 
