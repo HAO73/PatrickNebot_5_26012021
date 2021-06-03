@@ -57,15 +57,11 @@ function getArticle() {
                         alert(error)
                 })
 }
-
-
 let product;
 getArticle().then(result => {
         product = result;
-
         const optionColor = document.getElementById("exampleFormControlSelect1");
         const btn_sendCart = document.getElementById("addCart");
-
 //Ecouter panier et envois panier  & // recuperation produit details
 
         btn_sendCart.addEventListener("click", (event) => {
@@ -85,14 +81,10 @@ getArticle().then(result => {
                 }
 //-----------------------------Local Storage -----------------------------------//
                 let checkLocalStorage = JSON.parse(localStorage.getItem("orderElement")) || []
-
                 console.log(checkLocalStorage)
-
-
                 checkLocalStorage.push(productCart);
                 localStorage.setItem("orderElement", JSON.stringify(checkLocalStorage));
                 window.location.href = "panier.html";
-
                 console.log('product', product);
         })
 })

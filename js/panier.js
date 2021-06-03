@@ -2,12 +2,7 @@
 //////Rapatriement element du local storage
 
 let checkLocalStorage = JSON.parse(localStorage.getItem("orderElement"));
-
-console.log(checkLocalStorage)
-
-
 const containerProductCart = document.getElementById("containerProductCart");
-
 const containerForm = document.getElementById("containerForm");
 
 //----Affichage produit panier ----- 
@@ -18,9 +13,7 @@ if (checkLocalStorage === null || checkLocalStorage == 0) {
 
 
 } else {
-
   let cart = [];
-
   for (i = 0; i < checkLocalStorage.length; i++) {
 
     cart = cart + `
@@ -50,10 +43,9 @@ if (checkLocalStorage === null || checkLocalStorage == 0) {
   }
   if (i === checkLocalStorage.length) {
     containerProductCart.innerHTML = cart;
-
   }
-
 }
+
 
 /////////Bouton Supprimer Article ///////////
 
@@ -77,22 +69,13 @@ for (let j = 0; j < btn_cancel.length; j++) {
 
     alert("Ce produit a été supprimer du panier");
     window.location.href = "panier.html";
-
   })
-
 }
-
 //////////////Montant total du panier////////////////////////////////
-
 let cartProductsPrice = []
-
 for (let k = 0; k < checkLocalStorage.length; k++) {
-
   let cartProductPrice = checkLocalStorage[k].productPrice
-
-
   cartProductsPrice.push(cartProductPrice)
-
 }
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -101,6 +84,7 @@ const totalAmount = cartProductsPrice.reduce(reducer, 0)
 const totalAmountDisplay = `<h3 class=" text-center p-2 bg-light border m-3"> Le prix total est de : ${totalAmount} € </h3>`
 
 containerProductCart.insertAdjacentHTML("beforeend", totalAmountDisplay)
+
 
 ///////////////////// Formulaire //////////////////////////////////
 
@@ -150,12 +134,13 @@ const displayFormHtml = () => {
 </div>
 <button id="FormSend" class="btn btn-dark mt-3">Passer la Commande</button>
 </form> `;
-
   containerForm.insertAdjacentHTML("beforeend", form);
-
 }
-
 displayFormHtml();
+
+
+
+/////////////////////Envois du forumalaire/////////////////////////
 
 const btn_FormSend = document.getElementById("FormSend");
 
@@ -178,8 +163,6 @@ btn_FormSend.addEventListener("click", (event) => {
     return `${value} : Chiffre et symbole ne sont pas autorisé \n min 3 caractères, max 20 caractères`
   }
 
-
-
   const regEx = (value) => {
     return /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(value)
   }
@@ -188,83 +171,56 @@ btn_FormSend.addEventListener("click", (event) => {
     return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
   }
 
-
   function checkFirstName() {
-
     const checkFirstName = formValues.firstName
-
     if (regEx(checkFirstName)) {
       return true;
-
     } else {
       alert(textAlert("Prénom"));
       return false;
-
     }
-
   };
 
-
   function checkLastName() {
-
     const checkLastName = formValues.lastName
-
     if (regEx(checkLastName)) {
       return true;
-
     } else {
       alert(textAlert("Nom"));
       return false;
-
     }
-
   };
 
 
   function checkEmail() {
-
     const checkEmail = formValues.email
-
     if (regExEmail(checkEmail)) {
       return true;
-
     } else {
       alert("Email n'est pas valide");
       return false;
-
     }
-
   };
 
 
   function checkCity() {
-
     const checkCity = formValues.city
-
     if (regEx(checkCity)) {
       return true;
-
     } else {
       alert("Le nom de la ville est incorrecte, caractère speciaux et chiffres non admis");
       return false;
-
     }
-
   };
 
   function checkCountry() {
-
     const checkCountry = formValues.country
-
     if (regEx(checkCountry)) {
       return true;
-
     } else {
       alert("Le nom du pays est incorrecte, caractère speciaux et chiffres non admis");
-      return false;
-
+     return false;
     }
-
   };
 
 
@@ -282,61 +238,43 @@ btn_FormSend.addEventListener("click", (event) => {
       email: formValues.email,
     }
 
-
     let products = []
-
     for (let m = 0; m < checkLocalStorage.length; m++) {
       products.push(checkLocalStorage[m].productId)
     }
-
     const sendDataServer = {
       contact,
       products
     }
 
-
     const promise01 = fetch("https://ab-p5-api.herokuapp.com/api/teddies/order", {
       method: "POST",
       body: JSON.stringify(sendDataServer),
-
       headers: {
         "Content-Type": "application/json",
-
       },
-
     });
 
     promise01.then(async (response) => {
-
       try {
-
         console.log(response)
         const contenu = await response.json();
         console.log(contenu)
         window.location.href = "confirmation.html?id=" + contenu.orderId + "&orderPrice=" + totalAmount;
-
       } catch (e) {
-
         console.log(e)
-
       }
 
-      ///////////////////Supression du panier ////////////////////
+///////////////////Supression du panier ////////////////////
 
       localStorage.removeItem("orderElement")
 
     })
 
-
   } else {
-
     alert("Veuillez bien remplir le formulaire");
-
   }
-
-
-
-})
+  })
 
 
 
